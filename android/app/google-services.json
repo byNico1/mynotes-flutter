@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "248154720690",
+    "project_id": "mynotes-flutter-bynico1",
+    "storage_bucket": "mynotes-flutter-bynico1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:248154720690:android:ea5030cf1ae73ca820fcab",
+        "android_client_info": {
+          "package_name": "org.adstrategic.mynotes"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjKce1YlGhi4WAvHbUKsYcP27bEetvhaI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
