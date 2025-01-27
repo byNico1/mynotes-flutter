@@ -1,7 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:mynotes/firebase_options.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -31,60 +29,55 @@ class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Login")),
-      body: FutureBuilder(
-        future: Firebase.initializeApp(
-            options: DefaultFirebaseOptions.currentPlatform),
-        builder: (context, snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.done:
-              return Column(children: [
-                TextField(
-                  controller: _email,
-                  enableSuggestions: false,
-                  autocorrect: false,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration:
-                      const InputDecoration(hintText: "Enter your email"),
-                ),
-                TextField(
-                  controller: _password,
-                  obscureText: true,
-                  enableSuggestions: false,
-                  autocorrect: false,
-                  decoration:
-                      const InputDecoration(hintText: "Enter your password"),
-                ),
-                TextButton(
-                    onPressed: () async {
-                      final email = _email.text;
-                      final password = _password.text;
-                      try {
-                        final userCredentials = await FirebaseAuth.instance
-                            .signInWithEmailAndPassword(
-                                email: email, password: password);
-                        print('userCredentials: $userCredentials');
-                      } on FirebaseAuthException catch (e) {
-                        switch (e.code) {
-                          case "invalid-credential":
-                            print("Incorrect e-mail or password.");
-                            break;
-                          case "invalid-email":
-                            print("Invalid e-mail provided.");
-                            break;
-                          default:
-                            print("An error occurred: ${e.message}");
-                            print('error code: ${e.code}');
-                        }
-                      }
-                    },
-                    child: const Text("Login"))
-              ]);
-            default:
-              return const Text("Loading...");
-          }
-        },
+      appBar: AppBar(
+        title: const Text("Login"),
       ),
+      body: Column(children: [
+        TextField(
+          controller: _email,
+          enableSuggestions: false,
+          autocorrect: false,
+          keyboardType: TextInputType.emailAddress,
+          decoration: const InputDecoration(hintText: "Enter your email"),
+        ),
+        TextField(
+          controller: _password,
+          obscureText: true,
+          enableSuggestions: false,
+          autocorrect: false,
+          decoration: const InputDecoration(hintText: "Enter your password"),
+        ),
+        TextButton(
+            onPressed: () async {
+              final email = _email.text;
+              final password = _password.text;
+              try {
+                final userCredentials = await FirebaseAuth.instance
+                    .signInWithEmailAndPassword(
+                        email: email, password: password);
+                print('userCredentials: $userCredentials');
+              } on FirebaseAuthException catch (e) {
+                switch (e.code) {
+                  case "invalid-credential":
+                    print("Incorrect e-mail or password.");
+                    break;
+                  case "invalid-email":
+                    print("Invalid e-mail provided.");
+                    break;
+                  default:
+                    print("An error occurred: ${e.message}");
+                    print('error code: ${e.code}');
+                }
+              }
+            },
+            child: const Text("Login")),
+        TextButton(
+            onPressed: () {
+              Navigator.of(context)
+                  .pushNamedAndRemoveUntil("/register/", (route) => false);
+            },
+            child: const Text("Not registered yet? Register here"))
+      ]),
     );
   }
 }
