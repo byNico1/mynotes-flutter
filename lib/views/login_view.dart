@@ -57,9 +57,16 @@ class _LoginViewState extends State<LoginView> {
               try {
                 await FirebaseAuth.instance.signInWithEmailAndPassword(
                     email: email, password: password);
+
+                final user = FirebaseAuth.instance.currentUser;
                 if (!context.mounted) return;
-                Navigator.of(context)
-                    .pushNamedAndRemoveUntil(notesRoute, (route) => false);
+                if (user?.emailVerified ?? false) {
+                  Navigator.of(context)
+                      .pushNamedAndRemoveUntil(notesRoute, (route) => false);
+                } else {
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                      verifyEmailRoute, (route) => false);
+                }
               } on FirebaseAuthException catch (e) {
                 if (!context.mounted) return;
                 switch (e.code) {
